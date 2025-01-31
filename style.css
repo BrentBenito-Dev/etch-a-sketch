@@ -13,8 +13,5 @@
 
 .grid-square-pixel{
     border: 0.1em solid black;
-    display: flex;
-    flex-wrap: wrap;
-    flex : 1 1 0;
-    padding: 0.75rem;
+    box-sizing: border-box;
 }
