@@ -3,6 +3,7 @@ const grid = document.querySelector("#grid");
 const DEFAULT_GRID_SIZE = 16 * 16;
 const gridSizeForm = document.querySelector("#gridSizeForm");
 let gridSize;
+let j = 1;
 
 gridSizeForm.addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -33,10 +34,10 @@ function drawGrid(size){
         const gridSquarePixel = document.createElement("div");
         gridSquarePixel.setAttribute("class", "grid-square-pixel"); 
         gridSquarePixel.setAttribute("id", "square");
+        gridSquarePixel.style.background = "background:rgba(0, 0, 0, 0%) ";
         grid.appendChild(gridSquarePixel);
         
-        rgbDraw(gridSquarePixel);
-    
+        shadeDraw(gridSquarePixel);
     }  
     const gridSquareSize = 100 / size;
     const gridSquareStyle = `width: ${gridSquareSize}%; height: ${gridSquareSize}%;`;
@@ -56,7 +57,7 @@ function draw(square){
     const gridSquares = square;
 
     gridSquares.addEventListener("mouseover", () =>{
-        gridSquares.style.backgroundColor = "black";
+        gridSquares.style.background = "rgba(0, 0, 0, 100%)";
     });
 }
 
@@ -78,6 +79,16 @@ function rgbDraw(square){
 }
 
 function shadeDraw(square){
+    const gridSquares = square;
 
+    square.addEventListener("mouseover", ()=>{
+        const currentShade = window.getComputedStyle(square).background;
+        const rgbaValues = currentShade.match(/[\d.]+/g);
+        let opacity = parseFloat(rgbaValues[3]);
+        opacity = Math.min(opacity + 0.1, 0.99);
+        gridSquares.style.background = `rgba(${rgbaValues[0]}, ${rgbaValues[1]}, ${rgbaValues[2]}, ${opacity})`;        
+    })
+   
+   
 }
 
