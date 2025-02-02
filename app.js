@@ -2,6 +2,11 @@
 const grid = document.querySelector("#grid");
 const DEFAULT_GRID_SIZE = 16 * 16;
 const gridSizeForm = document.querySelector("#gridSizeForm");
+const btnBlackBrush = document.querySelector("#blackBrush");
+const btnRgbBrush = document.querySelector("#rgbBrush");
+const btnShadeBrush = document.querySelector("#shadeBrush");
+let truth = true;
+
 let gridSize;
 let j = 1;
 
@@ -14,7 +19,7 @@ gridSizeForm.addEventListener("submit", (e)=>{
     }
 
     if (gridSize == 0){
-        alert("Invalid Grid!")
+        alert("Invalid Grid!");
     }
 
     if(gridSize < 100){
@@ -23,6 +28,10 @@ gridSizeForm.addEventListener("submit", (e)=>{
         alert("The grid is too big!")
     }
 });
+
+
+
+
 
 //rgbDraw();
 
@@ -36,9 +45,30 @@ function drawGrid(size){
         gridSquarePixel.setAttribute("id", "square");
         gridSquarePixel.style.background = "background:rgba(0, 0, 0, 0%) ";
         grid.appendChild(gridSquarePixel);
-        
-        shadeDraw(gridSquarePixel);
-    }  
+    }    
+
+    const tiles = document.querySelectorAll("#square");
+    btnBlackBrush.addEventListener("click", ()=>{
+        tiles.forEach(tile => {
+            draw(tile);
+        });
+    });
+
+    btnRgbBrush.addEventListener("click", ()=>{
+        tiles.forEach(tile => {
+            rgbDraw(tile);
+        });
+    });
+
+    btnShadeBrush.addEventListener("click", ()=>{
+        tiles.forEach(tile => {
+            shadeDraw(tile);
+        });
+    });
+
+
+  
+
     const gridSquareSize = 100 / size;
     const gridSquareStyle = `width: ${gridSquareSize}%; height: ${gridSquareSize}%;`;
     const gridSquares = document.querySelectorAll(".grid-square-pixel")
@@ -80,15 +110,14 @@ function rgbDraw(square){
 
 function shadeDraw(square){
     const gridSquares = square;
-
     square.addEventListener("mouseover", ()=>{
         const currentShade = window.getComputedStyle(square).background;
         const rgbaValues = currentShade.match(/[\d.]+/g);
         let opacity = parseFloat(rgbaValues[3]);
         opacity = Math.min(opacity + 0.1, 0.99);
-        gridSquares.style.background = `rgba(${rgbaValues[0]}, ${rgbaValues[1]}, ${rgbaValues[2]}, ${opacity})`;        
+        gridSquares.style.background = `rgba(0, 0, 0, ${opacity})`;        
     })
-   
-   
 }
+
+// rgba(${rgbaValues[0]}, ${rgbaValues[1]}, ${rgbaValues[2]}, ${opacity})
 
