@@ -30,9 +30,6 @@ gridSizeForm.addEventListener("submit", (e)=>{
 });
 
 
-
-
-
 //rgbDraw();
 
 function drawGrid(size){
@@ -43,29 +40,26 @@ function drawGrid(size){
         const gridSquarePixel = document.createElement("div");
         gridSquarePixel.setAttribute("class", "grid-square-pixel"); 
         gridSquarePixel.setAttribute("id", "square");
-        gridSquarePixel.style.background = "background:rgba(0, 0, 0, 0%) ";
         grid.appendChild(gridSquarePixel);
     }    
 
     const tiles = document.querySelectorAll("#square");
-    btnBlackBrush.addEventListener("click", ()=>{
-        tiles.forEach(tile => {
+
+    tiles.forEach(tile =>{
+        btnBlackBrush.addEventListener("click", ()=>{
             draw(tile);
         });
-    });
-
-    btnRgbBrush.addEventListener("click", ()=>{
-        tiles.forEach(tile => {
+        btnRgbBrush.addEventListener("click", ()=>{
             rgbDraw(tile);
         });
-    });
-
-    btnShadeBrush.addEventListener("click", ()=>{
-        tiles.forEach(tile => {
+    
+        btnShadeBrush.addEventListener("click", ()=>{
             shadeDraw(tile);
         });
-    });
+    })
+  
 
+   
 
   
 
@@ -92,7 +86,6 @@ function draw(square){
 }
 
 function rgbDraw(square){
-    const gridSquares = square;
     let min = 0;
     let max = 255;
     let rgbValues = [];
@@ -101,23 +94,40 @@ function rgbDraw(square){
         rgbValues[i] = Math.floor(Math.random()*(max - min +1))+ min;
     }
 
-    gridSquares.addEventListener("mouseover", () =>{
+    square.addEventListener("mouseover", () =>{
         let gridSquareStyle = `rgb(${rgbValues[0]}, ${rgbValues[1]}, ${rgbValues[2]})`;
-        gridSquares.style.backgroundColor = gridSquareStyle;
+        square.style.backgroundColor = gridSquareStyle;
     });
+
+  
 
 }
 
 function shadeDraw(square){
-    const gridSquares = square;
     square.addEventListener("mouseover", ()=>{
-        const currentShade = window.getComputedStyle(square).background;
-        const rgbaValues = currentShade.match(/[\d.]+/g);
-        let opacity = parseFloat(rgbaValues[3]);
-        opacity = Math.min(opacity + 0.1, 0.99);
-        gridSquares.style.background = `rgba(0, 0, 0, ${opacity})`;        
-    })
+        square.style.background = "rgba(229,229, 229, 0)";
+        square.addEventListener("mouseout", ()=>{
+            const currentShade = window.getComputedStyle(square).background;
+            const rgbaValues = currentShade.match(/[\d.]+/g);
+            let r = parseInt(rgbaValues[0].trim());
+            let g = parseInt(rgbaValues[1].trim());
+            let b= parseInt(rgbaValues[2].trim());
+    
+            r = Math.max(0, Math.round(r * 0.9)); 
+            g = Math.max(0, Math.round(g * 0.9));
+            b = Math.max(0, Math.round(b * 0.9));
+    
+            square.style.background = `rgba(${r}, ${g}, ${b}, 1)`;
+        });
+    });
+
+   
 }
 
 // rgba(${rgbaValues[0]}, ${rgbaValues[1]}, ${rgbaValues[2]}, ${opacity})
 
+// const currentShade = window.getComputedStyle(square).background;
+// const rgbaValues = currentShade.match(/[\d.]+/g);
+// let opacity = parseFloat(rgbaValues[3]);
+// opacity = Math.min(opacity + 0.1, 1);
+// square.style.background = `rgba(${rgbaValues[0]}, ${rgbaValues[1]}, ${rgbaValues[2]}, ${opacity})`; 

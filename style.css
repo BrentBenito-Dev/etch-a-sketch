@@ -14,4 +14,5 @@
 .grid-square-pixel{
     border: 0.1em solid black;
     box-sizing: border-box;
+    background:rgba(255,255,255,1);
 }
