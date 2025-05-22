@@ -5,6 +5,7 @@ const gridSizeForm = document.querySelector("#gridSizeForm");
 const btnBlackBrush = document.querySelector("#blackBrush");
 const btnRgbBrush = document.querySelector("#rgbBrush");
 const btnShadeBrush = document.querySelector("#shadeBrush");
+const menu = document.querySelector("#buttonContainer");
 let truth = true;
 
 let gridSize;
@@ -44,23 +45,37 @@ function drawGrid(size){
     }    
 
     const tiles = document.querySelectorAll("#square");
-
-    tiles.forEach(tile =>{
-        btnBlackBrush.addEventListener("click", ()=>{
-            draw(tile);
-        });
-        btnRgbBrush.addEventListener("click", ()=>{
-            rgbDraw(tile);
-        });
     
-        btnShadeBrush.addEventListener("click", ()=>{
-            shadeDraw(tile);
+    menu.addEventListener("click", (event)=>{
+        let target = event.target;
+        tiles.forEach(tile => {
+            switch(target.id){
+                case 'blackBrush':
+                    draw(tile);
+                    break;
+                case 'rgbBrush':
+                    rgbDraw(tile);
+                    break;
+                case 'shadeBrush':
+                    shadeDraw(tile);
+                    break;
+            }
         });
+      
     })
   
 
    
+    // btnBlackBrush.addEventListener("click", ()=>{
+    //     draw(tile);
+    // });
+    // btnRgbBrush.addEventListener("click", ()=>{
+    //     rgbDraw(tile);
+    // });
 
+    // btnShadeBrush.addEventListener("click", ()=>{
+    //     shadeDraw(tile);
+    // });
   
 
     const gridSquareSize = 100 / size;
